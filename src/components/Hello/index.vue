@@ -15,7 +15,6 @@ export default {
     },
     methods: {
         testClick(){
-            console.log('233')
             this.hello = this.$store.state.text
         }
     }

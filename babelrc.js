@@ -36,18 +36,6 @@ const babelConfig = {
     "@babel/plugin-proposal-numeric-separator",
     "@babel/plugin-proposal-throw-expressions",
     "@babel/plugin-transform-modules-commonjs",
-    // [
-    //   "babel-plugin-react-css-modules",
-    //   {
-    //     "generateScopedName": "[name]_[local]_[hash:base64:5]",
-    //     "webpackHotModuleReloading": true,
-    //     "filetypes": {
-    //       ".scss": {
-    //         "syntax": "postcss-scss"
-    //       }
-    //     }
-    //   }
-    // ],
     ["module-resolver", {
       "alias": {
         "@commMdule": "./src/styles",

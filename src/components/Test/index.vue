@@ -8,7 +8,7 @@ export default {
     async asyncData({ store, route }) {
         await new Promise(async (resolve) => {
             await setTimeout(() => {
-                console.log('async Data 调用', store, route)
+                console.log('async Data 调用')
                 resolve()
             }, 2000)
         })
