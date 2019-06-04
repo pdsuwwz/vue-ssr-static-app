@@ -11,7 +11,9 @@
   {{{ meta }}}
 </head>
 <body>
-<!--vue-ssr-outlet-->
-<script src='/client-bundle.js'></script>
+  <div>
+    <!--vue-ssr-outlet-->
+  </div>
+<script src="/dll/<%= htmlWebpackPlugin.options.vendorJsName %>"></script>
 </body>
 </html>

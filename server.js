@@ -5,11 +5,12 @@ const createRenderer = require('vue-server-renderer').createRenderer
 const createApp = require('./dist/server-bundle').default
 
 const renderer = createRenderer({
-  template: fs.readFileSync('./templates/index.html', 'utf-8'),
+  template: fs.readFileSync('./dist/index.html', 'utf-8'),
 })
 
 server
   .use(express.static('dist'))
+  .use(express.static('vendor'))
   .get('*', (req, res) => {
     const context = {
       title: 'hello',

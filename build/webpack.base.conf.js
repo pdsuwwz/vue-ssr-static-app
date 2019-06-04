@@ -130,15 +130,6 @@ module.exports = {
       },
     }),
   ],
-  devServer: {
-    contentBase: [resolve('dist')], // 配置多个数据源
-    inline: true,
-    host: '127.0.0.1',
-    port: config.port,
-    // open: true, // 自动拉取浏览器
-    disableHostCheck: true,
-    quiet: true, // 使用 FriendlyErrorsWebpackPlugin ，可设置此选项来关闭控制台不必要的信息
-  },
   resolve: {
     // 用于配置可解析的后缀名，其中缺省为 js 和 json
     extensions: ['.js', '.jsx', '.json', '.vue'],

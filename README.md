@@ -4,8 +4,9 @@ Vue SSR 渲染，对 SEO 友好
 
 > Vue2 + VueRouter3 + Vuex3 + Webpack4 + Babel7 + express
 
-暂时未区分环境
-暂未添加热部署
+* [ ] 运行环境区分
+* [ ] 项目热部署
+* [ ] bundle 文件彻底分片
 
 ## 开发文档：
 
@@ -13,7 +14,10 @@ Vue SSR 渲染，对 SEO 友好
 // 安装依赖 ( or npm )
 yarn install
 
-// 打包
+// 打包公共库文件
+yarn dll
+
+// 打包项目
 yarn build
 
 // 启动

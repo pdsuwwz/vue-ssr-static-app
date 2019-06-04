@@ -1,2 +1,2 @@
-// require('@commMdule/common.css')
+require('@commMdule/common.css')
 // require('./common.css')
