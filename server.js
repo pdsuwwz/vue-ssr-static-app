@@ -36,7 +36,7 @@ server
         })
       })
       .catch(error => {
-        res.status(404).end('Error Page not found')
+        res.status(404).end(`Error Page not found \n ${error}`)
       })
   })
   .listen(8080, () => {

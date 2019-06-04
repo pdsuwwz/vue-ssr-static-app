@@ -6,17 +6,19 @@ const manifest = require('../vendor/dll/vendor-manifest.json');
 const bundleConfig = require("../bundle-config.json")
 
 const HtmlwebpackPlugin = require('html-webpack-plugin');
+const resolve = (dir) => path.join(__dirname, '..', dir)
 
 const isProd = process.env.NODE_ENV === 'production'
 
 const config = merge(base, {
+  mode: isProd ? 'production' : 'development',
+  target: "web",
   entry: {
     bundle: ['@babel/polyfill', './src/styles/index.js', './src/entry-client.js'],
   },
   output: {
     filename: 'client-bundle.js'
   },
-  mode: isProd ? 'production' : 'development',
   plugins: [
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
@@ -46,7 +48,15 @@ const config = merge(base, {
       context: path.join(__dirname, '..'),
       manifest
     }),
-  ]
+  ],
+  devServer: {
+    contentBase: [resolve('dist'), resolve('vendor')], // 配置多个数据源
+    inline: false, // 取消热更新，并且浏览器控制台不产生构建消息
+    host: '127.0.0.1',
+    port: 8080,
+    disableHostCheck: true,
+    quiet: true, // 使用 FriendlyErrorsWebpackPlugin ，可设置此选项来关闭控制台不必要的信息
+  },
 })
 
 module.exports = config
