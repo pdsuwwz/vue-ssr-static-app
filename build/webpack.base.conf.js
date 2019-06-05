@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack')
 const HtmlwebpackPlugin = require('html-webpack-plugin')
-const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin')
+
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const notifier = require('node-notifier')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -11,11 +11,8 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const plugins = [
   new webpack.ProgressPlugin(),
-  new ExtractCssChunksPlugin({
-    filename: "[name].[chunkhash].css",
-    chunkFilename: "[name].css",
-    orderWarning: true,
-  }),
+  new webpack.HashedModuleIdsPlugin(),
+
   new VueLoaderPlugin(),
   new FriendlyErrorsWebpackPlugin({
     clearConsole: true,
@@ -34,6 +31,8 @@ const plugins = [
 ]
 if (isProd) {
   plugins.push(
+    // TODO: 如果不想使用该插件的话可以在 server.js 中用 html-minifier 代替
+    // 参考文章： https://www.cnblogs.com/xiaohuochai/p/9158675.html
     new HtmlwebpackPlugin({
       template: resolve('./templates/index.html'),
       filename: 'index.html',

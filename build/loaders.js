@@ -55,21 +55,37 @@ const getCssLoader = () => {
     return [
         {
             test: /\.scss/,
-            use: [ExtractCssChunksPlugin.loader, 'css-loader', {
-                loader: 'postcss-loader',
+            use: ['vue-style-loader', {
+                loader: 'css-loader',
                 options: {
-                    ident: 'postcss',
-                    sourceMap: true,
-                    config: {
-                        path: resolve('postcss.config.js'),
+                    // 开启 CSS Modules
+                    modules: true,
+                    // 自定义生成的类名
+                    localIdentName: '[local]_[hash:base64:8]'
+                }
+            }, "sass-loader", {
+                    loader: 'postcss-loader',
+                    options: {
+                        ident: 'postcss',
+                        sourceMap: true,
+                        config: {
+                            path: resolve('postcss.config.js'),
+                        },
                     },
-                },
-            }, "sass-loader"],
+                }],
             exclude: resolve('node_modules'),
             include: resolve('src')
         }, {
             test: /\.css/,
-            use: [ExtractCssChunksPlugin.loader, "css-loader"],
+            use: ['vue-style-loader', {
+                loader: 'css-loader',
+                options: {
+                    // 开启 CSS Modules
+                    modules: true,
+                    // 自定义生成的类名
+                    localIdentName: '[local]_[hash:base64:8]'
+                }
+            }],
         }
     ]
 }

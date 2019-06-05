@@ -1,9 +1,8 @@
 <template>
     <div>
-        <div class="hello">
-            <div class="logo"></div>
+        <div :class="$style['hello']">
+            <div :class="$style['logo']"></div>
             <p @click="testClick()">{{hello}}</p>
-            <input type="text" v-model="timer">
             <router-link to="/test">点我两秒后跳转</router-link>
         </div>
     </div>
@@ -12,7 +11,6 @@
 export default {
     data: function(){
         return {
-            timer: '',
             hello: '点我问好！'
         }
     },
@@ -26,7 +24,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" module>
     .hello {
         display: flex;
         flex-flow: column;
@@ -39,9 +37,7 @@ export default {
         .logo {
             width: 200px;
             height: 200px;
-            // 相对路径和别名路径均适用
-            // background-image: url('./assets/logo.png');
-            background-image: url('~_assets/home/logo.png'); // 别名路径注意要加 ~ 符号
+            background-image: url('./assets/logo.png');
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
