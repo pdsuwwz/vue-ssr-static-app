@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack')
+const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const notifier = require('node-notifier')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -19,21 +21,29 @@ module.exports = {
     rules
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+    }),
+    new ExtractCssChunksPlugin({
+        filename: "[name].[chunkhash].css",
+        chunkFilename: "[name].css",
+        orderWarning: true,
+    }),
     new VueLoaderPlugin(),
-    // new FriendlyErrorsWebpackPlugin({
-    //   clearConsole: true,
-    //   onErrors: (severity, errors) => {
-    //     if (severity !== 'error') {
-    //       return;
-    //     }
-    //     const error = errors[0];
-    //     notifier.notify({
-    //       title: 'Webpack error',
-    //       message: `${severity}: ${error.name}`,
-    //       subtitle: error.file || '',
-    //     });
-    //   },
-    // }),
+    new FriendlyErrorsWebpackPlugin({
+      clearConsole: true,
+      onErrors: (severity, errors) => {
+        if (severity !== 'error') {
+          return;
+        }
+        const error = errors[0];
+        notifier.notify({
+          title: 'Webpack error',
+          message: `${severity}: ${error.name}`,
+          subtitle: error.file || '',
+        });
+      },
+    }),
   ],
   resolve: {
     // 用于配置可解析的后缀名，其中缺省为 js 和 json

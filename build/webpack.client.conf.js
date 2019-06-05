@@ -1,10 +1,11 @@
 const merge = require('webpack-merge')
 const base = require('./webpack.base.conf')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 const config = merge(base, {
   mode: 'production',
   entry: {
-    app: ['@babel/polyfill', './src/styles/index.js'],
+    app: ['@babel/polyfill', './src/styles/index.js', './src/entry-client.js'],
   },
   optimization: {
     runtimeChunk: {
@@ -23,7 +24,14 @@ const config = merge(base, {
           }
         }
       }
-    }
+    },
+    minimizer: [new TerserWebpackPlugin({
+      sourceMap: false,
+      parallel: true,
+      terserOptions: {
+        keep_fnames: true,
+      },
+    })],
   },
   plugins: [
     new VueSSRClientPlugin()

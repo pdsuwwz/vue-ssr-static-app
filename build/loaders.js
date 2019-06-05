@@ -1,4 +1,5 @@
 const path = require('path');
+const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin')
 const resolve = (dir) => path.join(__dirname, '..', dir)
 const getPreLoaderForVueLoader = () => {
     return {
@@ -58,7 +59,7 @@ const getCssLoader = () => {
     return [
         {
             test: /\.scss/,
-            use: ['vue-style-loader', 'css-loader', {
+            use: [ExtractCssChunksPlugin.loader, 'css-loader', {
                 loader: 'postcss-loader',
                 options: {
                     ident: 'postcss',
@@ -72,7 +73,7 @@ const getCssLoader = () => {
             include: resolve('src')
         }, {
             test: /\.css/,
-            use: ["css-loader"],
+            use: [ExtractCssChunksPlugin.loader, "css-loader"],
         }
     ]
 }
