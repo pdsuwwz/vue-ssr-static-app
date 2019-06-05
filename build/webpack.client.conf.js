@@ -2,6 +2,7 @@ const merge = require('webpack-merge')
 const base = require('./webpack.base.conf')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production'
 
 const config = merge(base, {
@@ -33,7 +34,7 @@ const config = merge(base, {
       terserOptions: {
         keep_fnames: true,
       },
-    })],
+    }), new OptimizeCSSAssetsPlugin()],
   },
   plugins: [
     new VueSSRClientPlugin(),

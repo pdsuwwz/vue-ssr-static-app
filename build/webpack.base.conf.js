@@ -1,12 +1,59 @@
 const path = require('path');
 const webpack = require('webpack')
+const HtmlwebpackPlugin = require('html-webpack-plugin')
 const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin')
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const notifier = require('node-notifier')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const rules = require('./loaders')
 const resolve = (dir) => path.join(__dirname, '..', dir)
 const isProd = process.env.NODE_ENV === 'production'
+
+const plugins = [
+  new webpack.ProgressPlugin(),
+  new ExtractCssChunksPlugin({
+    filename: "[name].[chunkhash].css",
+    chunkFilename: "[name].css",
+    orderWarning: true,
+  }),
+  new VueLoaderPlugin(),
+  new FriendlyErrorsWebpackPlugin({
+    clearConsole: true,
+    onErrors: (severity, errors) => {
+      if (severity !== 'error') {
+        return
+      }
+      const error = errors[0];
+      notifier.notify({
+        title: 'Webpack error',
+        message: `${severity}: ${error.name}`,
+        subtitle: error.file || ''
+      })
+    }
+  })
+]
+if (isProd) {
+  plugins.push(
+    new HtmlwebpackPlugin({
+      template: resolve('./templates/index.html'),
+      filename: 'index.html',
+      minify: {
+        removeComments: false,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: false,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+      inject: false,
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin()
+  )
+}
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
@@ -22,34 +69,7 @@ module.exports = {
   module: {
     rules
   },
-  plugins: [
-    // 该插件会影响热加载自动刷新，原因暂未发现
-    // new webpack.LoaderOptionsPlugin({
-    //   minimize: true,
-    // }),
-    
-    new webpack.ProgressPlugin(),
-    new ExtractCssChunksPlugin({
-      filename: "[name].[chunkhash].css",
-      chunkFilename: "[name].css",
-      orderWarning: true,
-    }),
-    new VueLoaderPlugin(),
-    new FriendlyErrorsWebpackPlugin({
-      clearConsole: true,
-      onErrors: (severity, errors) => {
-        if (severity !== 'error') {
-          return;
-        }
-        const error = errors[0];
-        notifier.notify({
-          title: 'Webpack error',
-          message: `${severity}: ${error.name}`,
-          subtitle: error.file || '',
-        });
-      },
-    }),
-  ],
+  plugins,
   resolve: {
     // 用于配置可解析的后缀名，其中缺省为 js 和 json
     extensions: ['.js', '.jsx', '.json', '.vue'],

@@ -27,9 +27,9 @@ const eslintConfig = {
     "standard/no-callback-literal": 0,
     "func-call-spacing": 0,
     "prefer-promise-reject-errors": 0,
-    "no-unused-vars": 1,
+    "no-unused-vars": 0,
     "no-debugger": 1,
-    "no-console": 1,
+    "no-console": 0,
     'no-useless-constructor': "off"
   }
 };

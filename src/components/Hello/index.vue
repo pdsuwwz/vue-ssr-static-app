@@ -3,6 +3,7 @@
         <div class="hello">
             <div class="logo"></div>
             <p @click="testClick()">{{hello}}</p>
+            <input type="text" v-model="timer">
             <router-link to="/test">点我两秒后跳转</router-link>
         </div>
     </div>
@@ -11,8 +12,12 @@
 export default {
     data: function(){
         return {
-            hello: '点我'
+            timer: '',
+            hello: '点我问好！'
         }
+    },
+    mounted(){
+        console.log(document)
     },
     methods: {
         testClick(){

@@ -16,7 +16,7 @@ function createRenderer(bundle, options) {
 
 let renderer;
 let readyPromise;
-const templatePath = resolve("./templates/index.html");
+const templatePath = resolve(`./${isProd ? 'dist' : 'templates'}/index.html`);
 
 if (isProd) {
     // 生成环境直接使用打包好的资源
@@ -60,7 +60,11 @@ function render(req, res) {
             res.status(404).send("404 | Page Not Found");
         } else {
             // Render Error Page or Redirect
-            res.status(500).send("500 | Internal Server Error");
+            res.status(500).send(`<p style="white-space: pre-line">
+                500 | Internal Server Error\n
+                error during render: ${req.url}\n
+                ${err.stack}
+            </p>`);
             console.error(`error during render : ${req.url}`);
             console.error(err.stack);
         }

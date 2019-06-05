@@ -100,7 +100,7 @@ const getAssetsLoader = () => {
     }]
 }
 module.exports = [
-    // getPreLoaderForVueLoader(),
+    getPreLoaderForVueLoader(),
     getVueLoader(),
     getJSXLoader(),
     ...getCssLoader(),
