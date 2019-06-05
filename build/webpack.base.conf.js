@@ -1,52 +1,70 @@
 const path = require('path');
-const webpack = require('webpack');
-const config = require('../src/common/config.js');
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ExtractCssChunksPlugin = require("extract-css-chunks-webpack-plugin");
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const notifier = require('node-notifier');
+const webpack = require('webpack')
+const HtmlwebpackPlugin = require('html-webpack-plugin')
+const ExtractCssChunksPlugin = require('extract-css-chunks-webpack-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const notifier = require('node-notifier')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const rules = require('./loaders')
 const resolve = (dir) => path.join(__dirname, '..', dir)
-
-
-const isClient = process.env.env === 'client'
+const isProd = process.env.NODE_ENV === 'production'
 
 const plugins = [
-  new webpack.LoaderOptionsPlugin({
-    minimize: true,
+  new webpack.ProgressPlugin(),
+  new ExtractCssChunksPlugin({
+    filename: "[name].[chunkhash].css",
+    chunkFilename: "[name].css",
+    orderWarning: true,
   }),
   new VueLoaderPlugin(),
   new FriendlyErrorsWebpackPlugin({
-    clearConsole: false,
+    clearConsole: true,
     onErrors: (severity, errors) => {
       if (severity !== 'error') {
-        return;
+        return
       }
       const error = errors[0];
       notifier.notify({
         title: 'Webpack error',
         message: `${severity}: ${error.name}`,
-        subtitle: error.file || '',
-      });
-    },
-  }),
+        subtitle: error.file || ''
+      })
+    }
+  })
 ]
-
-if (isClient) {
+if (isProd) {
   plugins.push(
-    new ExtractCssChunksPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
-      fallBack: 'vue-style-loader'
+    new HtmlwebpackPlugin({
+      template: resolve('./templates/index.html'),
+      filename: 'index.html',
+      minify: {
+        removeComments: false,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: false,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+      inject: false,
     }),
+    new webpack.optimize.ModuleConcatenationPlugin()
   )
 }
 
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode: isProd ? 'production' : 'development',
   performance: {
     hints: false
+  },
+  devtool: !isProd ? 'eval-source-map' : false,
+  output: {
+    path: resolve("dist"),
+    publicPath: '/dist/',
+    filename: '[name].[chunkhash].js'
   },
   module: {
     rules

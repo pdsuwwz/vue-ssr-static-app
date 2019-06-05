@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { createApp } from './app'
 
 // 客户端特定引导逻辑……
@@ -33,7 +34,7 @@ router.onReady(() => {
     // this is where we should trigger a loading indicator if there is one
     Promise.all(activated.map(c => {
       if (c.asyncData) {
-        alert('fetch data in client side')
+        // alert('fetch data in client side')
         return c.asyncData({ store, route: to })
       }
     })).then(() => {
