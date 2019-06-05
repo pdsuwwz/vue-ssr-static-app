@@ -1,9 +1,5 @@
 const path = require('path');
-const ExtractCssChunksPlugin = require("extract-css-chunks-webpack-plugin");
 const resolve = (dir) => path.join(__dirname, '..', dir)
-const isClient = process.env.env === 'client'
-const isProd = process.env.NODE_ENV === 'production'
-
 const getPreLoaderForVueLoader = () => {
     return {
         enforce: 'pre',
@@ -29,6 +25,11 @@ const getVueLoader = () => {
         test: /\.vue$/,
         use: {
             loader: "vue-loader",
+            options: {
+                compilerOptions: {
+                    preserveWhitespace: false
+                }
+            }
         },
         exclude: /node_modules/,
         include: resolve('src')
@@ -57,14 +58,7 @@ const getCssLoader = () => {
     return [
         {
             test: /\.scss/,
-            use: [isClient ? ExtractCssChunksPlugin.loader : 'vue-style-loader', {
-                loader: 'css-loader',
-                options: {
-                    modules: false,
-                    camelCase: true,
-                    importLoaders: 1,
-                },
-            }, {
+            use: ['vue-style-loader', 'css-loader', {
                 loader: 'postcss-loader',
                 options: {
                     ident: 'postcss',
@@ -78,7 +72,7 @@ const getCssLoader = () => {
             include: resolve('src')
         }, {
             test: /\.css/,
-            use: isClient ? [ExtractCssChunksPlugin.loader, "css-loader"] : ["css-loader"],
+            use: ["css-loader"],
         }
     ]
 }
@@ -109,7 +103,7 @@ const getAssetsLoader = () => {
     }]
 }
 module.exports = [
-    getPreLoaderForVueLoader(),
+    // getPreLoaderForVueLoader(),
     getVueLoader(),
     getJSXLoader(),
     ...getCssLoader(),
