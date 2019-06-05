@@ -40,7 +40,6 @@ const getVueLoader = () => {
 const getJSXLoader = () => {
     return {
         test: /\.js|jsx$/,
-        exclude: /node_modules/,
         use: {
             loader: "babel-loader",
             options: {
@@ -48,10 +47,7 @@ const getJSXLoader = () => {
                 extends: resolve('babelrc.js')
             }
         },
-        exclude: file => (
-            /node_modules/.test(file) &&
-            !/\.vue\.js/.test(file)
-        )
+        exclude: /node_modules/,
     }
 }
 

@@ -8,7 +8,6 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = merge(base, {
     mode: isProd ? 'production' : 'development',
     target: 'node',
-    devtool: "#source-map",
     entry: './src/entry-server.js',
     output: {
         filename: 'server-bundle.js',

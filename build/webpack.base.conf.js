@@ -6,12 +6,14 @@ const notifier = require('node-notifier')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const rules = require('./loaders')
 const resolve = (dir) => path.join(__dirname, '..', dir)
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  mode: 'production',
+  mode: isProd ? 'production' : 'development',
   performance: {
     hints: false
   },
+  devtool: !isProd ? 'eval-source-map' : false,
   output: {
     path: resolve("dist"),
     publicPath: '/dist/',
@@ -21,13 +23,16 @@ module.exports = {
     rules
   },
   plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-    }),
+    // 该插件会影响热加载自动刷新，原因暂未发现
+    // new webpack.LoaderOptionsPlugin({
+    //   minimize: true,
+    // }),
+    
+    new webpack.ProgressPlugin(),
     new ExtractCssChunksPlugin({
-        filename: "[name].[chunkhash].css",
-        chunkFilename: "[name].css",
-        orderWarning: true,
+      filename: "[name].[chunkhash].css",
+      chunkFilename: "[name].css",
+      orderWarning: true,
     }),
     new VueLoaderPlugin(),
     new FriendlyErrorsWebpackPlugin({

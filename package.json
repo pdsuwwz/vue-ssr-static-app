@@ -4,12 +4,12 @@
   "description": "",
   "scripts": {
     "dev": "node server.js",
+    "dev:prod": "npm run build && cross-env NODE_ENV=production node server.js",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build:client": "cross-env NODE_ENV=production env=client webpack --config build/webpack.client.conf.js --progress --colors",
     "build:server": "cross-env NODE_ENV=production env=server webpack --config build/webpack.server.conf.js --progress --colors",
-    "build": "npm run build:client && npm run build:server",
-    "dll": "webpack --progress --colors --config build/webpack.dll.conf.js"
+    "build": "npm run build:client && npm run build:server"
   },
   "repository": {
     "type": "git",

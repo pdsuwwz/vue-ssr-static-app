@@ -2,7 +2,8 @@
     <div>
         <div class="hello">
             <div class="logo"></div>
-            <p @click="testClick">{{hello}}</p>
+            <p @click="testClick()">{{hello}}</p>
+            <router-link to="/test">点我两秒后跳转</router-link>
         </div>
     </div>
 </template>

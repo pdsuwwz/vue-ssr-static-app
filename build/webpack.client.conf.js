@@ -2,8 +2,10 @@ const merge = require('webpack-merge')
 const base = require('./webpack.base.conf')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const isProd = process.env.NODE_ENV === 'production'
+
 const config = merge(base, {
-  mode: 'production',
+  mode: isProd ? 'production' : 'development',
   entry: {
     app: ['@babel/polyfill', './src/styles/index.js', './src/entry-client.js'],
   },
@@ -34,7 +36,7 @@ const config = merge(base, {
     })],
   },
   plugins: [
-    new VueSSRClientPlugin()
+    new VueSSRClientPlugin(),
   ]
 })
 module.exports = config
