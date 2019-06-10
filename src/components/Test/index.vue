@@ -1,10 +1,15 @@
 <template>
     <div>
-        测试页面
+        {{ test }}
     </div>
 </template>
 <script>
 export default {
+    data(){
+        return {
+            test: 'old',
+        }
+    },
     async asyncData({ store, route }) {
         await new Promise(async (resolve) => {
             await setTimeout(() => {
@@ -12,7 +17,18 @@ export default {
                 resolve()
             }, 2000)
         })
+        return {
+            test: 'async 测试'
+        }
     },
+    mounted(){
+        this.handleTest()
+    },
+    methods: {
+        handleTest() {
+            console.log('--------test mounted')
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
