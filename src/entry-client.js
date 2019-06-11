@@ -75,7 +75,7 @@ router.onReady(async () => {
           route: router.currentRoute,
           cookies: context.cookies,
         }).then((asyncDataResult) => {
-          applyAsyncData(Component, asyncDataResult)
+          applySSRData(Component, asyncDataResult)
         })
         promises.push(promise)
         return Promise.all(promises)
