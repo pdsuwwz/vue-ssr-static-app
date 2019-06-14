@@ -8,7 +8,7 @@ const isProd = process.env.NODE_ENV === 'production'
 const config = merge(base, {
   mode: isProd ? 'production' : 'development',
   entry: {
-    app: ['@babel/polyfill', './src/styles/index.js', './src/entry-client.js'],
+    app: ['core-js/stable', 'regenerator-runtime/runtime', './src/styles/index.js', './src/entry-client.js'],
   },
   optimization: {
     runtimeChunk: {

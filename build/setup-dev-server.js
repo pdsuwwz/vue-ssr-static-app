@@ -55,7 +55,7 @@ module.exports = function setupDevServer(app, templatePath, cb) {
     const clientCompiler = webpack(clientConfig)
     const devMiddleware = middleware(clientCompiler, {
         publicPath: clientConfig.output.publicPath,
-        noInfo: true
+        stats: 'errors-only'
     })
     app.use(devMiddleware)
     clientCompiler.plugin("done", (stats) => {
