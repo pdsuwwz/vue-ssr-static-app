@@ -20,6 +20,7 @@ const babelConfig = {
         "useESModules": false
       }
     ],
+    "@vue/babel-plugin-transform-vue-jsx",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
     ["@babel/plugin-proposal-class-properties", { "loose": true }],

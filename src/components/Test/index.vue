@@ -1,13 +1,19 @@
-<template>
-    <div>
-        {{ test }}
-    </div>
-</template>
 <script>
+// JSX 与 template 不可并存
 export default {
     data(){
         return {
             test: 'old',
+            list: [
+                {
+                    text: 'vue',
+                    create: 'Evan You'
+                },
+                {
+                    text: 'react',
+                    create: 'facebook'
+                },
+            ]
         }
     },
     async asyncData({ store, route }) {
@@ -20,6 +26,22 @@ export default {
         return {
             test: 'async 测试'
         }
+    },
+    render(h) {
+        return (
+            <div>
+                <h3> { this.test } </h3>
+                来自 JSX 的渲染： {
+                    this.list.map((item) => {
+                        return (
+                            <div>
+                                { item.text } - { item.create }
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        )
     },
     mounted(){
         this.handleTest()
