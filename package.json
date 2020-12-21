@@ -25,7 +25,7 @@
     "config": "^1.26.2",
     "express": "^4.16.4",
     "history": "^4.6.3",
-    "node-notifier": "^5.3.0",
+    "node-notifier": "^8.0.1",
     "vue": "^2.6.8",
     "vue-router": "^3.0.2",
     "vue-server-renderer": "^2.6.8",
